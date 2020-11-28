@@ -1,69 +1,81 @@
-ArrayList<DCurve> curves = new ArrayList<DCurve>();
-void setup(){
-size(800, 1200);
+ArrayList<Curve> curves = new ArrayList<Curve>();
+float outGutter = 0;
+float inGutter=0;
+void setup() {
+  size(1000, 1000);
 
-addDCurves(curves,200,40,40);
-  
+  addCurves(curves, 2000, outGutter, inGutter);
 }
 
-void draw(){
-background(0,0,0);
-noFill();
-stroke(255,255,255);
-strokeWeight(2);
+void draw() {
+  background(0, 0, 0);
+  noFill();
+  stroke(255, 255, 255);
+  strokeWeight(1);
+  //line(width/2-20, width/2-20, width/2+20, width/2+20);
 
-  for(int i=0; i<curves.size(); i++){
-      DCurve current= curves.get(i);
-      curve(current.one.cpx1, current.one.cpx2, current.one.x1, current.one.y1, current.one.x2, current.one.y2, current.one.cpx2, current.one.cpy2);
-      curve(current.two.cpx1, current.two.cpx2, current.two.x1, current.two.y1, current.two.x2, current.two.y2, current.two.cpx2, current.two.cpy2);
-  }
+  stroke(255, 255, 255, 30);
+ 
 
-
-}
-
-
-class Curve{
-  float cpx1, cpy1, x1,y1,x2,y2,cpx2,cpy2;
-  Curve(float cpx10,float cpy10,float x10,float y10, float x20, float y20, float  cpx20, float cpy20){
-      cpx1 = cpx10;
-      cpy1 = cpy10;
-      x1 = x10;
-      y1 = y10;
-      x2 = x20;
-      y2 = y20;
-      cpx2 = cpx20;
-      cpy2 = cpy20;
+  for (int i=0; i<curves.size(); i++) {
+    Curve current= curves.get(i);
+    strokeWeight(current.weight);
+    current.drawCurve(0, 0, 0);      
+    current.drawCurve(width, width+1, 180);
   }
 }
 
-class DCurve{
-  Curve one, two;
-  int curveOneWeight, curveTwoWeight;
-  DCurve(Curve curveOne, Curve curveTwo){
-    one = curveOne;
-    two= curveTwo;
+
+
+class Curve {
+  float cpx1, cpy1, x1, y1, x2, y2, cpx2, cpy2;
+  float weight;
+  Curve(float cpx10, float cpy10, float x10, float y10, float x20, float y20, float  cpx20, float cpy20) {
+    cpx1 = cpx10;
+    cpy1 = cpy10;
+    x1 = x10;
+    y1 = y10;
+    x2 = x20;
+    y2 = y20;
+    cpx2 = cpx20;
+    cpy2 = cpy20;
   }
-  void setcurveOneWeight(int weight){
-    this.curveOneWeight = weight;
+ 
+  void drawCurve(int xTrans, int yTrans, int rotation) {
+    pushMatrix();
+    translate(xTrans, yTrans);
+    rotate(radians(rotation));
+    curve(this.cpx1, this.cpx2, this.x1, this.y1, this.x2, this.y2, this.cpx2, this.cpy2);
+    popMatrix();
   }
-  void setcurveTwoWeight(int weight){
-    this.curveTwoWeight = weight;
+  void setWeight(float val){
+    this.weight= val;
   }
 }
 
-void addDCurves(ArrayList<DCurve> curves, int amount, float outGutter, float inGutter){
+
+
+//median for curve 
+//  curve(-1400, height/2-300 , width/2, height/2, width-20, 0, 400, 0 );
+
+
+void addCurves(ArrayList<Curve> curves, int amount, float outGutter, float inGutter) {
   float centerX= width/2;
   float centerY= height/2;
-  for(int i=0; i<amount; i++){
-    float x1= random(outGutter, centerX-inGutter);
+  for (int i=0; i<amount; i++) {
     float x2 = random(centerX + inGutter, width-outGutter);
-  Curve one = new Curve(x1-40, 40, x1, height, centerX, centerY, random(centerX, centerX+60), random(centerY, centerY-60));
-  Curve two = new Curve (centerX+40, 40, centerX, centerY,x2, 0, random(x2, x2+60), random(-10, -70));
-  DCurve toAdd= new DCurve(one, two);
-  curves.add(toAdd);
+    //Curve one = new Curve(x1, 2000, x1, height, centerX, centerY, random(1000,1100), random(centerY+300, centerY+800));
+    Curve toAdd = new Curve (-1400, centerY-300, centerX, centerY, x2, 0, random(400, 800), random(0, 20));
+    
+    int strokeChange = int(round(random(0,1)));
+    if(strokeChange==0){
+    toAdd.setWeight(.01);
+    }else{
+    toAdd.setWeight(random(.25, 1));
+    }
+    curves.add(toAdd);
   }
 }
 
-class DArc{
-
+class DArc {
 }
