@@ -14,11 +14,13 @@ void draw() {
   strokeWeight(1);
   //line(width/2-20, width/2-20, width/2+20, width/2+20);
 
-  stroke(255, 255, 255, 30);
+  stroke(255, 255, 255, 10);
  
 
   for (int i=0; i<curves.size(); i++) {
     Curve current= curves.get(i);
+    current.changeOpacity();
+    stroke(255,255,255, current.opacity);
     strokeWeight(current.weight);
     current.drawCurve(0, 0, 0);      
     current.drawCurve(width, width+1, 180);
@@ -29,7 +31,7 @@ void draw() {
 
 class Curve {
   float cpx1, cpy1, x1, y1, x2, y2, cpx2, cpy2;
-  float weight;
+  float weight, direction, opacity;
   Curve(float cpx10, float cpy10, float x10, float y10, float x20, float y20, float  cpx20, float cpy20) {
     cpx1 = cpx10;
     cpy1 = cpy10;
@@ -39,6 +41,8 @@ class Curve {
     y2 = y20;
     cpx2 = cpx20;
     cpy2 = cpy20;
+    this.direction= random(-1,1);
+    this.opacity= random(1,40);
   }
  
   void drawCurve(int xTrans, int yTrans, int rotation) {
@@ -50,6 +54,19 @@ class Curve {
   }
   void setWeight(float val){
     this.weight= val;
+  }
+  void setOpacity(float val){
+    this.opacity=val;
+  }
+  void changeOpacity(){
+    if(this.opacity <=0 || this.opacity >=40){
+      direction*= -1;
+    }
+    if(this.direction>0){
+        this.opacity+=1;
+    }else{
+      this.opacity-=1;
+    }
   }
 }
 
