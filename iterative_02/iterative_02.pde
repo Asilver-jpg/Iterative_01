@@ -41,7 +41,7 @@ class Curve {
     cpx2 = cpx20;
     cpy2 = cpy20;
     //this. period = TWO_PI / random(1,20);
-    this.period= random(3,15);
+    this.period= random(20,40);
     this.opacity= random(80,100);
     this.maxOpacity= this.opacity;
     this.angle = 1;
