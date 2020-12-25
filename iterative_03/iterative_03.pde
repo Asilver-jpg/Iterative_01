@@ -14,24 +14,23 @@ void settings() {
   size(image.width, image.height);
 }
 void setup() {
-  image = loadImage("C:/Users/alex silver/Documents/Processing/Iterative_01/images/toucan.jpg");
   background(0);
   //larger offset works better with larger images
   offset=60;
 }
 
 void draw() {
-  if(sinWave ==true){
+  if (sinWave ==true) {
     float x = sin(radians(theta));
-    if(x<0){
-     x*=-1;
+    if (x<0) {
+      x*=-1;
     }
-    if(ascending && x< temp){
+    if (ascending && x < temp) {
       ascending = !ascending; 
-      period = random(.5,20);
-    }else if(!ascending && x>temp){
+      period = random(.5, 20);
+    } else if (!ascending && x > temp) {
       ascending = !ascending;
-      period = random(.5,20);
+      period = random(.5, 20);
     }
     temp = x;
     offset = maxOffset * x;
@@ -57,23 +56,21 @@ void draw() {
       float x3 = random(x, x-offset);
       float y3 = random(y, y+offset);
       triangle(x, y, x2, y2, x3, y3);
-    
     }
   }
 }
 
-void keyPressed(){
-  if(key==CODED){
-    if(keyCode ==UP && offset<=maxOffset){
+void keyPressed() {
+  if (key==CODED) {
+    if (keyCode ==UP && offset<=maxOffset) {
       offset++;
-    }else if(keyCode == DOWN && offset>=minOffset){
+    } else if (keyCode == DOWN && offset>=minOffset) {
       offset--;
       //this is the s key
-    }else if(keyCode == RIGHT && sinWave==false){
+    } else if (keyCode == RIGHT && sinWave==false) {
       sinWave =true;
-    }else if(keyCode ==RIGHT && sinWave==true){
-    sinWave=false;
+    } else if (keyCode ==RIGHT && sinWave==true) {
+      sinWave=false;
     }
   }
-
 }
